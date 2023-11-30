@@ -1,0 +1,73 @@
+//가습기코드에 블루투스모듈을 연결하고 on/off메시지를 전송해서 가습기를 제어하고, 온도와습도값을 블루투스터미널에 출력
+
+#include "DHT.h"
+#include <Wire.h> 
+#include <LiquidCrystal_I2C.h>
+#include <SoftwareSerial.h>
+SoftwareSerial bluetooth(6,7);
+LiquidCrystal_I2C lcd(0x27,16,2);
+
+#define DHTPIN 5
+#define DHTTYPE DHT11
+DHT dht(DHTPIN, DHTTYPE);
+
+#define mosfet 2
+#define btn_on 3
+#define btn_off 4
+
+unsigned long t = 0;
+
+void setup() {
+  // put your setup code here, to run once:
+  Serial.begin(9600);
+  bluetooth.begin(9600);
+  dht.begin();
+  lcd.init();
+  lcd.backlight();
+  pinMode(mosfet,OUTPUT);
+  pinMode(btn_on,INPUT_PULLUP);
+  pinMode(btn_off,INPUT_PULLUP); 
+}
+void loop() {
+  // put your main code here, to run repeatedly:
+  if(bluetooth.available()){
+    //스마트폰에서 on이라고 전송하면 켜지고 off라고 전송하면 꺼진다
+    String data = bluetooth.readStringUntil('\n');
+
+    if(data == "on"){
+      digitalWrite(mosfet,HIGH);
+    }else if(data == "off"){
+      digitalWrite(mosfet,LOW);
+    }
+  }
+  
+  if(digitalRead(btn_on) == LOW){
+    digitalWrite(mosfet,HIGH);
+  }
+  if(digitalRead(btn_off) == LOW){
+    digitalWrite(mosfet,LOW);
+  }
+
+  if(millis() - t > 1000){
+    t = millis();
+    float h = dht.readHumidity();
+    float t = dht.readTemperature();
+
+    //온도와 습도값을 블루투스로 전송한다
+    bluetooth.print(h);
+    bluetooth.print(",");
+    bluetooth.println(t);
+
+    //온도와 습도값을 LCD모듈에 출력한다!
+    lcd.setCursor(0,0); //첫번째줄~
+    lcd.print("HUMI=");
+    lcd.print(h);
+    lcd.print("%  ");
+    lcd.setCursor(0,1); //두번째줄~
+    lcd.print("TEMP=");
+    lcd.print(t);
+    lcd.print("'C  ");
+  }
+
+  
+}
