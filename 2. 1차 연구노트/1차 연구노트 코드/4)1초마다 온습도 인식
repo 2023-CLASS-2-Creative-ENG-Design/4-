@@ -1,0 +1,56 @@
+#include "DHT.h"
+#include <Wire.h> 
+#include <LiquidCrystal_I2C.h>
+
+LiquidCrystal_I2C lcd(0x27,16,2);
+
+#define DHTPIN 5
+#define DHTTYPE DHT11
+DHT dht(DHTPIN, DHTTYPE);
+
+#define mosfet 2
+#define btn_on 3
+#define btn_off 4
+
+unsigned long t = 0;
+
+void setup() {
+  Serial.begin(9600);
+  dht.begin();
+  lcd.init();
+  lcd.backlight();
+  pinMode(mosfet,OUTPUT);
+  pinMode(btn_on,INPUT_PULLUP);
+  pinMode(btn_off,INPUT_PULLUP);
+}
+
+void loop() {
+  if(digitalRead(btn_on) == LOW){
+    digitalWrite(mosfet,HIGH);
+  }
+  if(digitalRead(btn_off) == LOW){
+    digitalWrite(mosfet,LOW);
+  }
+
+  if(millis() - t > 1000){
+    t = millis();
+    //1초에 한번 온도와 습도를 측정
+    float h = dht.readHumidity();
+    float t = dht.readTemperature();
+
+    Serial.print(h);
+    Serial.print("\t");
+    Serial.println(t);
+
+    lcd.setCursor(0,0); //첫번째줄
+    lcd.print("HUMI=");
+    lcd.print(h);
+    lcd.print("%  ");
+    lcd.setCursor(0,1); //두번째줄
+    lcd.print("TEMP=");
+    lcd.print(t);
+    lcd.print("'C  ");
+  }
+
+  
+}
