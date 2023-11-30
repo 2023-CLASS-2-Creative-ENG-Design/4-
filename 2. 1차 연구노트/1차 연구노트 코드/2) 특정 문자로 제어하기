@@ -1,0 +1,22 @@
+//유저의 입력을받아서 x라는 메시지를 수신하면 가습기를 끄고, o라는 메시지를 수신하면 가습기를 작동
+
+#define mosfet 2
+
+void setup() {
+  Serial.begin(9600);
+  pinMode(mosfet,OUTPUT);
+}
+
+void loop() {
+  if(Serial.available()){
+    //PC에서 유저가 전송
+    char c = Serial.read(); //문자 1개를 읽겠다
+    if(c == 'x'){
+      //끈다
+      digitalWrite(mosfet,LOW);
+    }else if(c == 'o'){
+      //켠다
+      digitalWrite(mosfet,HIGH);
+    }
+  }
+}
