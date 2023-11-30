@@ -1,0 +1,15 @@
+#define mosfet 2
+
+void setup() {
+  Serial.begin(9600); //아두이노 결과를 PC에 출력
+  pinMode(mosfet,OUTPUT); //모스펫핀 출력 설정
+}
+
+void loop() {
+  //2초마다
+  digitalWrite(mosfet,HIGH); //가습기 작동
+  delay(2000);
+  //2초마다
+  digitalWrite(mosfet,LOW); //가습기 작동 멈추기
+  delay(2000);
+}
