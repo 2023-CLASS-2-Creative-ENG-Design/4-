@@ -1,0 +1,23 @@
+//스위치2개를 연결해서 1번스위치를 누르면 가습기가 켜지고 2번스위치를 누르면 가습기가 꺼지도록
+
+#define mosfet 2
+#define btn_on 3
+#define btn_off 4
+
+void setup() {
+  Serial.begin(9600);
+  pinMode(mosfet,OUTPUT);
+  pinMode(btn_on,INPUT_PULLUP); //아두이노에 내장된 저항을 이용해서 스위치 사용
+  pinMode(btn_off,INPUT_PULLUP); //아두이노에 내장된 저항을 이용해서 스위치 사용
+}
+
+void loop() {
+  if(digitalRead(btn_on) == LOW){
+    //on스위치를 눌렀을 때
+    digitalWrite(mosfet,HIGH);
+  }
+  if(digitalRead(btn_off) == LOW){
+    //off스위치를 눌렀을 때
+    digitalWrite(mosfet,LOW);
+  }
+}
