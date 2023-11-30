@@ -1,3 +1,5 @@
+//온습도센서와 LCD모듈을 추가해서 온도와 습도값을 LCD화면에 출력
+
 #include "DHT.h"
 #include <Wire.h> 
 #include <LiquidCrystal_I2C.h>
