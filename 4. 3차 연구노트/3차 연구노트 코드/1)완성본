@@ -1,0 +1,112 @@
+#include "DHT.h"
+#include <Wire.h> 
+#include <LiquidCrystal_I2C.h>
+#include <SoftwareSerial.h>
+#include <ArduinoJson.h>
+SoftwareSerial bluetooth(6,7);
+LiquidCrystal_I2C lcd(0x27,16,2);
+
+#define DHTPIN 5
+#define DHTTYPE DHT11
+DHT dht(DHTPIN, DHTTYPE);
+
+#define mosfet 2
+#define btn_on 3
+#define btn_off 4
+
+unsigned long t = 0;
+
+bool auto_mode = false;
+int auto_min = 30;
+int auto_max = 40;
+void setup() {
+  Serial.begin(9600);
+  bluetooth.begin(9600);
+  dht.begin();
+  lcd.init();
+  lcd.backlight();
+  pinMode(mosfet,OUTPUT);
+  pinMode(btn_on,INPUT_PULLUP);
+  pinMode(btn_off,INPUT_PULLUP);
+}
+
+void loop() {
+  if(bluetooth.available()){
+    String data = bluetooth.readStringUntil('\n');
+
+    StaticJsonDocument<48> doc;
+
+    DeserializationError error = deserializeJson(doc, data);
+    
+    if (error) {
+      Serial.print(F("deserializeJson() failed: "));
+      Serial.println(error.f_str());
+      return;
+    }
+    
+    String type = doc["type"]; // "manual"
+    if(type == "manual"){
+      int order = doc["order"]; // 0
+      Serial.print("매뉴얼 모드");
+      Serial.print("\t");
+      Serial.println(order);
+
+      // HIGH == true == 1
+      // LOW == false == 0
+      digitalWrite(mosfet,order);
+
+      auto_mode = false;
+    }else if(type == "auto"){
+      auto_min = doc["min"]; // 30
+      auto_max = doc["max"]; // 40
+      Serial.print("자동모드");
+      Serial.print("\t");
+      Serial.print(auto_min);
+      Serial.print("\t");
+      Serial.println(auto_max);
+
+      auto_mode = true;
+    }
+    
+  }
+  
+  if(digitalRead(btn_on) == LOW){
+    digitalWrite(mosfet,HIGH);
+  }
+  if(digitalRead(btn_off) == LOW){
+    digitalWrite(mosfet,LOW);
+  }
+
+  if(millis() - t > 1000){
+    t = millis();
+    float h = dht.readHumidity();
+    float t = dht.readTemperature();
+    
+    if(auto_mode){
+       if(h > auto_max){
+          digitalWrite(mosfet,LOW);
+       }else if(h < auto_min){
+          digitalWrite(mosfet,HIGH);
+       }
+    }
+
+    bluetooth.print(digitalRead(mosfet));
+    bluetooth.print(",");
+    bluetooth.print(auto_mode);
+    bluetooth.print(",");
+    bluetooth.print(h);
+    bluetooth.print(",");
+    bluetooth.println(t);
+
+    lcd.setCursor(0,0); //첫번째줄~
+    lcd.print("HUMI=");
+    lcd.print(h);
+    lcd.print("%  ");
+    lcd.setCursor(0,1); //두번째줄~
+    lcd.print("TEMP=");
+    lcd.print(t);
+    lcd.print("'C  ");
+  }
+
+  
+}
