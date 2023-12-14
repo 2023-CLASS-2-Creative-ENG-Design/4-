@@ -21,6 +21,14 @@ IOT가습기
 보고서작성자 : 신무진
 
 
+##프로젝트명
+
+IOT 가습기
+
+<p align="center">
+<img src="https://github.com/2023-CLASS-2-Creative-ENG-Design/4team/blob/main/5.%20%EA%B2%B0%EA%B3%BC%EB%B3%B4%EA%B3%A0%EC%84%9C/%EA%B0%80%EC%8A%B5%EA%B8%B0%20%EC%99%84%EC%84%B1%20%EC%82%AC%EC%A7%84.png" width="500" height="700"/>
+</p>
+
 
 ## 프로젝트 동기
 
