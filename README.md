@@ -5,9 +5,7 @@ IOT가습기
 팀 안에 숨겨진 창의성을 통헤 혁신을 분출해내자는 의미
 
 
-<p align="center">
-<img src="https://github.com/2023-CLASS-2-Creative-ENG-Design/creative-factory-1/assets/128020749/dbb0e12b-e5dc-4014-81fa-5470a78a34c6.pn](https://github.com/2023-CLASS-2-Creative-ENG-Design/4team/blob/main/0.%20%EB%B8%8C%EB%A0%88%EC%9D%B8%EC%8A%A4%ED%86%A0%EB%B0%8D%2C%20%ED%8C%80%ED%9A%8C%EC%9D%98%EB%A1%9D/%ED%8C%80%ED%9A%8C%EC%9D%98%EC%82%AC%EC%A7%84.jpg" width="500" height="700"/>
-</p>
+
 
 
 -구성멤버
