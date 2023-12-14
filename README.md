@@ -6,7 +6,7 @@ IOT가습기
 
 
 <p align="center">
-<img src="https://github.com/2023-CLASS-2-Creative-ENG-Design/4team/blob/main/0.%20%EB%B8%8C%EB%A0%88%EC%9D%B8%EC%8A%A4%ED%86%A0%EB%B0%8D%2C%20%ED%8C%80%ED%9A%8C%EC%9D%98%EB%A1%9D/%ED%8C%80%ED%9A%8C%EC%9D%98%EC%82%AC%EC%A7%84.png">
+<img src="https://github.com/2023-CLASS-2-Creative-ENG-Design/4team/blob/main/0.%20%EB%B8%8C%EB%A0%88%EC%9D%B8%EC%8A%A4%ED%86%A0%EB%B0%8D%2C%20%ED%8C%80%ED%9A%8C%EC%9D%98%EB%A1%9D/%ED%8C%80%ED%9A%8C%EC%9D%98%EC%82%AC%EC%A7%84.png"  width="700" height="500"/>
 </p>
 
 
